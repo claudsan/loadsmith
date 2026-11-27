@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoadSmith — Local Smoke &amp; Load Forge</title>
+  <meta name="description"
+    content="LoadSmith: Local Smoke & Load Forge. Validate API flows, stress-test concurrency, compare Before vs. After, and export C-level Executive Reports 100% offline." />
+  <meta property="og:title" content="LoadSmith — Local Smoke & Load Forge" />
+  <meta property="og:description"
+    content="Does your system handle the load? Validate API flows, run concurrent load tests, and generate plain-language Executive Reports 100% offline." />
+  <meta property="og:image" content="screenshots/01-workspace-home.png" />
+  <link rel="icon" type="image/png" href="assets/loadsmith-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-N9ZFCSV5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+  </script>
+</head>
+
+<body class="bg-forge-grid">
+  <!-- 1. Navbar -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="brand-link">
+        <img src="assets/loadsmith-icon.png" alt="LoadSmith Icon" />
+        <span>Load<span class="brand-smith">Smith</span></span>
+        <span class="brand-tag">v1.0.0</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#story" data-i18n="nav_story">A Origem</a>
+        <a href="#features" data-i18n="nav_features">Funcionalidades</a>
+        <a href="#executive" class="nav-accent" data-i18n="nav_executive">Relatório Executivo</a>
+        <a href="#manual" data-i18n="nav_manual">Manual de Uso</a>
+        <a href="#sibling" class="nav-sibling" data-i18n="nav_sibling">🔥 Hooksmith</a>
+        <a href="#shortcuts" data-i18n="nav_shortcuts">Atalhos</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Switcher with SVG Flags -->
+        <div class="lang-switcher" role="group" aria-label="Language switcher">
+          <button type="button" class="lang-btn active" data-lang="pt" onclick="setLanguage('pt')"
+            title="Português (Brasil)">
+            <svg viewBox="0 0 24 16" aria-hidden="true">
+              <rect width="24" height="16" rx="2" fill="#009B3A" />
+              <polygon points="12,1.8 21.8,8 12,14.2 2.2,8" fill="#FEDF00" />
+              <circle cx="12" cy="8" r="3.6" fill="#002776" />
+              <path d="M8.6,6.8 Q12,5.6 15.4,7.6" stroke="#FFFFFF" stroke-width="0.7" fill="none" />
+            </svg>
+            <span>PT</span>
+          </button>
+          <button type="button" class="lang-btn" data-lang="en" onclick="setLanguage('en')" title="English (US)">
+            <svg viewBox="0 0 24 16" aria-hidden="true">
+              <rect width="24" height="16" rx="2" fill="#B22234" />
+              <path d="M0,2.46H24 M0,4.92H24 M0,7.38H24 M0,9.84H24 M0,12.3H24 M0,14.76H24" stroke="#FFFFFF"
+                stroke-width="1.23" />
+              <rect width="10.5" height="8.61" rx="1" fill="#3C3B6E" />
+            </svg>
+            <span>EN</span>
+          </button>
+          <button type="button" class="lang-btn" data-lang="es" onclick="setLanguage('es')" title="Español">
+            <svg viewBox="0 0 24 16" aria-hidden="true">
+              <rect width="24" height="16" rx="2" fill="#AA151B" />
+              <rect y="4" width="24" height="8" fill="#F1BF00" />
+            </svg>
+            <span>ES</span>
+          </button>
+        </div>
+
+        <a href="https://github.com/claudsan/loadsmith" target="_blank" rel="noopener" class="btn btn-secondary btn-sm">
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Hero Section, Carousel & Interactive Simulator -->
+  <main>
+    <div class="container hero">
+      <div class="hero-badges">
+        <span class="pill-badge ok" data-i18n="badge_local">100% Local &amp; Offline</span>
+        <span class="pill-badge" data-i18n="badge_privacy">Zero Nuvem • Segredos Protegidos</span>
+        <span class="pill-badge brand" data-i18n="badge_dev">Para Devs, Tech Leads &amp; Gestores</span>
+        <span class="pill-badge ok" data-i18n="badge_oss">💚 100% Open Source (MIT)</span>
+      </div>
+
+      <img src="assets/loadsmith-logo.png" alt="LoadSmith — Local Smoke & Load Forge" class="hero-logo" />
+
+      <h1 data-i18n="hero_title">
+        A Forja Local de <span class="accent">Smoke &amp; Load Tests</span> sem complexidade.
+      </h1>
+
+      <p class="hero-subtitle" data-i18n="hero_subtitle">
+        Valide fluxos completos de API, simule picos de carga concorrente, compare Antes vs. Depois e gere Relatórios
+        Executivos claros para tomada de decisão — direto no seu desktop.
+      </p>
+
+      <div class="hero-cta">
+        <a href="https://github.com/claudsan/loadsmith/releases" target="_blank" rel="noopener" class="btn btn-primary"
+          data-i18n="cta_download">⬇️ Baixar (Win / Mac / Linux)</a>
+        <a href="#manual" class="btn btn-secondary" data-i18n="cta_manual">📖 Ler Manual de Uso</a>
+        <a href="https://github.com/claudsan/loadsmith" target="_blank" rel="noopener" class="btn btn-secondary"
+          data-i18n="cta_github">⭐ Ver no GitHub</a>
+      </div>
+
+      <!-- Real Application Screenshots Carousel (4 Views) -->
+      <div class="carousel-wrapper">
+        <span class="section-eyebrow" style="margin-bottom:14px;" data-i18n="car_eyebrow">📸 INTERFACE REAL DA
+          APLICAÇÃO</span>
+
+        <div class="carousel-tabs" role="tablist">
+          <button type="button" class="carousel-tab active" data-slide-tab="0" onclick="goToSlide(0)">
+            <span class="carousel-tab-num">01 • WORKSPACE</span>
+            <span class="carousel-tab-title" data-i18n="car_t1">Workspace &amp; Cenários</span>
+          </button>
+          <button type="button" class="carousel-tab" data-slide-tab="1" onclick="goToSlide(1)">
+            <span class="carousel-tab-num">02 • VISUAL EDITOR</span>
+            <span class="carousel-tab-title" data-i18n="car_t2">Editor Visual, .env &amp; CSV</span>
+          </button>
+          <button type="button" class="carousel-tab" data-slide-tab="2" onclick="goToSlide(2)">
+            <span class="carousel-tab-num">03 • LIVE TELEMETRY</span>
+            <span class="carousel-tab-title" data-i18n="car_t3">Telemetria em Tempo Real</span>
+          </button>
+          <button type="button" class="carousel-tab" data-slide-tab="3" onclick="goToSlide(3)">
+            <span class="carousel-tab-num">04 • EXECUTIVE REPORT</span>
+            <span class="carousel-tab-title" data-i18n="car_t4">Relatório Executivo &amp; Pico</span>
+          </button>
+        </div>
+
+        <div class="carousel-stage" onmouseenter="pauseCarousel()" onmouseleave="resumeCarousel()">
+          <button type="button" class="carousel-nav-btn prev" onclick="prevSlide()"
+            aria-label="Previous slide">❮</button>
+          <button type="button" class="carousel-nav-btn next" onclick="nextSlide()" aria-label="Next slide">❯</button>
+
+          <div class="carousel-slide active" data-slide="0">
+            <img src="screenshots/01-workspace-home.png" alt="LoadSmith Workspace and Scenarios"
+              onclick="openLightbox(this.src)" />
+          </div>
+          <div class="carousel-slide" data-slide="1">
+            <img src="screenshots/02-visual-editor.png" alt="LoadSmith Visual Scenario Editor with CSV and .env"
+              onclick="openLightbox(this.src)" />
+          </div>
+          <div class="carousel-slide" data-slide="2">
+            <img src="screenshots/03-telemetry.png" alt="LoadSmith Real-Time Telemetry Chart and Metrics"
+              onclick="openLightbox(this.src)" />
+          </div>
+          <div class="carousel-slide" data-slide="3">
+            <img src="screenshots/04-executive-report.png" alt="LoadSmith Executive Report and Target Peak Simulator"
+              onclick="openLightbox(this.src)" />
+          </div>
+
+          <div class="carousel-caption-bar">
+            <div id="carousel-caption" class="carousel-caption-text" data-i18n="car_d1">
+              <strong>1. Workspace &amp; Cenários:</strong> Visão geral limpa com alternância rápida entre Smoke e
+              Carga, resumo de SLA, seletor de idioma e comando CLI pronto para automação.
+            </div>
+            <div class="carousel-dots">
+              <button type="button" class="carousel-dot active" data-slide-dot="0" onclick="goToSlide(0)"
+                aria-label="Slide 1"></button>
+              <button type="button" class="carousel-dot" data-slide-dot="1" onclick="goToSlide(1)"
+                aria-label="Slide 2"></button>
+              <button type="button" class="carousel-dot" data-slide-dot="2" onclick="goToSlide(2)"
+                aria-label="Slide 3"></button>
+              <button type="button" class="carousel-dot" data-slide-dot="3" onclick="goToSlide(3)"
+                aria-label="Slide 4"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:#34D399;margin-bottom:10px;font-weight:600;" data-i18n="sim_hint">
+        💡 Simulador Interativo: Clique nos eventos do Live Stream ou alterne entre Telemetria, YAML e Simulador
+        Executivo abaixo!
+      </p>
+
+      <!-- Interactive LoadSmith Desktop Mockup -->
+      <div class="app-window">
+        <div class="app-titlebar">
+          <div class="window-dots">
+            <span class="win-dot" style="background:#F43F5E;"></span>
+            <span class="win-dot" style="background:#F59E0B;"></span>
+            <span class="win-dot" style="background:#10B981;"></span>
+            <span style="margin-left:8px;font-weight:700;color:var(--fg);">LoadSmith — E-Commerce Workspace</span>
+          </div>
+          <div class="app-search-mock">
+            <span>🔍 Search scenario, step or error...</span>
+            <span>Ctrl K</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-family:var(--font-mono);font-size:0.72rem;color:#6EE7B7;">● Engine Ready</span>
+          </div>
+        </div>
+
+        <div class="app-workspace">
+          <!-- Column 1: Scenarios & Profile -->
+          <div class="app-col" style="background:#0A0E15;">
+            <div class="col-header">
+              <span>SCENARIOS (2)</span>
+              <span style="color:#38BDF8;font-size:0.9rem;">+</span>
+            </div>
+
+            <div class="sim-card active" data-sim-scen="orders" onclick="selectScenario('orders')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <strong style="font-size:0.79rem;">E-Commerce Orders (CSV)</strong>
+                <span class="yaml-tag">YAML</span>
+              </div>
+              <div class="sim-row" style="margin-top:5px;justify-content:space-between;">
+                <span
+                  style="font-family:var(--font-mono);font-size:0.72rem;color:var(--fg-muted);">api-flow-csv.yaml</span>
+                <span class="sla-tag">25 VUs</span>
+              </div>
+            </div>
+
+            <div class="sim-card" data-sim-scen="smoke" onclick="selectScenario('smoke')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <strong style="font-size:0.79rem;">Auth + Checkout Smoke</strong>
+                <span class="yaml-tag">YAML</span>
+              </div>
+              <div class="sim-row" style="margin-top:5px;justify-content:space-between;">
+                <span
+                  style="font-family:var(--font-mono);font-size:0.72rem;color:var(--fg-muted);">smoke-auth.yaml</span>
+                <span class="sla-tag">SMOKE</span>
+              </div>
+            </div>
+
+            <div class="col-header" style="margin-top:14px;border-top:1px solid var(--line);">
+              <span>PROFILE &amp; SLA</span>
+              <span style="color:#34D399;">PASSED</span>
+            </div>
+
+            <div class="sim-card" style="cursor:default;">
+              <div class="sim-row" style="justify-content:space-between;">
+                <strong style="font-size:0.78rem;color:var(--fg);">http://127.0.0.1:8090</strong>
+              </div>
+              <div class="sim-row" style="margin-top:8px;flex-wrap:wrap;">
+                <span class="sla-tag">p95 ≤ 250ms</span>
+                <span class="warn-tag">err ≤ 1%</span>
+                <span class="yaml-tag">.env + CSV</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Live Event Stream -->
+          <div class="app-col" style="background:#0C1119;">
+            <div class="col-header">
+              <span>📈 LIVE STREAM (4)</span>
+              <span>Ticks • Steps • History</span>
+            </div>
+
+            <div class="traffic-item active" data-sim-item="tick1" onclick="selectSimItem('tick1')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="sla-tag">TICK</span>
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">12.0s · 311.9
+                    req/s</span>
+                </div>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);">25 VUs</span>
+              </div>
+              <div class="sim-row" style="margin-top:6px;justify-content:space-between;">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:#34D399;">● ok=156 err=0</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:#38BDF8;">p95 44.2ms</span>
+              </div>
+            </div>
+
+            <div class="traffic-item" data-sim-item="tick2" onclick="selectSimItem('tick2')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="sla-tag">TICK</span>
+                  <span style="font-family:var(--font-mono);font-size:0.78rem;font-weight:700;">11.5s · 322.4
+                    req/s</span>
+                </div>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);">25 VUs</span>
+              </div>
+              <div class="sim-row" style="margin-top:6px;justify-content:space-between;">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:#34D399;">● ok=161 err=0</span>
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:#38BDF8;">p95 43.0ms</span>
+              </div>
+            </div>
+
+            <div class="traffic-item" data-sim-item="step1" onclick="selectSimItem('step1')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="yaml-tag">STEP</span>
+                  <span style="font-family:var(--font-mono);font-size:0.76rem;font-weight:600;">POST /orders</span>
+                </div>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-subtle);">18ms</span>
+              </div>
+              <div class="sim-row" style="margin-top:6px;justify-content:space-between;">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:#34D399;">● 201 Created</span>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--fg-muted);">extract
+                  {{orderId}}</span>
+              </div>
+            </div>
+
+            <div class="traffic-item" data-sim-item="exec1" onclick="selectSimItem('exec1')">
+              <div class="sim-row" style="justify-content:space-between;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <span class="warn-tag">REPORT</span>
+                  <span style="font-family:var(--font-mono);font-size:0.76rem;font-weight:700;">Executive Summary</span>
+                </div>
+                <span style="font-family:var(--font-mono);font-size:0.68rem;color:#34D399;">17,660/min</span>
+              </div>
+              <div class="sim-row" style="margin-top:6px;justify-content:space-between;">
+                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--fg-muted);">3,320 reqs · 100%
+                  ok</span>
+                <span class="sla-tag">PDF / HTML</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3: Dynamic Telemetry / YAML / Executive Inspector -->
+          <div class="app-col">
+            <div id="sim-inspector" class="inspector-pane"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. The Story Section ("De Dev para Dev") -->
+    <section id="story">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="story_eyebrow">☕ DE DEV PARA DEV &amp; LIDERANÇA</span>
+          <h2 data-i18n="story_title">Nascido da dor real entre ferramentas pesadas e a pergunta da Black Friday</h2>
+          <p data-i18n="story_desc">
+            Todo time passa pelo mesmo sufoco antes de uma grande campanha ou deploy crítico: validar se o fluxo não
+            quebrou e provar se o servidor aguenta o pico.
+          </p>
+        </div>
+
+        <div class="story-grid">
+          <div class="story-card pain">
+            <h3 data-i18n="pain_title">❌ O Sofrimento Antigo (JMeter, Scripts &amp; SaaS)</h3>
+            <ul class="story-list">
+              <li><span>•</span><span data-i18n="pain_1"><strong>O Labirinto do JMeter:</strong> Telas travadas dos anos
+                  2000, arquivos XML gigantescos impossíveis de revisar em Pull Request e alto consumo de
+                  memória.</span>
+              </li>
+              <li><span>•</span><span data-i18n="pain_2"><strong>Barreira de Código (k6 / Gatling):</strong> Precisar
+                  programar scripts inteiros só para encadear um Login + Criação de Pedido com massa CSV antes de subir
+                  uma release.</span></li>
+              <li><span>•</span><span data-i18n="pain_3"><strong>Risco de Credenciais na Nuvem:</strong> Subir tokens de
+                  homologação, arquivos <code>.env</code> e URLs internas da empresa para plataformas SaaS externas
+                  cobradas por usuário virtual.</span></li>
+              <li><span>•</span><span data-i18n="pain_4"><strong>O Abismo com a Gestão:</strong> Terminar o teste cheio
+                  de siglas (<code>p95</code>, <code>p99</code>, <code>RPS</code>) e ouvir do diretor: <em>"Mas vai
+                    aguentar 15 mil compras por minuto ou vai cair?"</em></span></li>
+            </ul>
+          </div>
+
+          <div class="story-card forge">
+            <h3 data-i18n="forge_title">⚡ O Jeito LoadSmith</h3>
+            <ul class="story-list">
+              <li><span>✓</span><span data-i18n="forge_1"><strong>Editor Visual + YAML Limpo no Git:</strong> Monte
+                  cenários com formulários intuitivos ou importe um <code>cURL</code> em 1 clique, mantendo arquivos
+                  YAML legíveis para toda a equipe.</span></li>
+              <li><span>✓</span><span data-i18n="forge_2"><strong>Smoke &amp; Carga no Mesmo Lugar:</strong> Valide o
+                  fluxo passo a passo com Smoke Fail-Fast e vire uma chave para simular dezenas ou centenas de usuários
+                  simultâneos.</span></li>
+              <li><span>✓</span><span data-i18n="forge_3"><strong>Segredos <code>.env</code> &amp; CSV 100%
+                    Locais:</strong> Suas senhas e tokens ficam apenas no seu disco local e nunca aparecem expostos na
+                  tela nem nos cenários.</span></li>
+              <li><span>✓</span><span data-i18n="forge_4"><strong>Relatório Executivo com Simulador de Pico:</strong>
+                  Traduza números técnicos em capacidade por minuto, percepção do cliente na tela e veredito em PDF ou
+                  HTML.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Core Features Grid -->
+    <section id="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="feat_eyebrow">🚀 FUNCIONALIDADES PRINCIPAIS</span>
+          <h2 data-i18n="feat_title">Da primeira rota testada ao veredito executivo</h2>
+          <p data-i18n="feat_subtitle">
+            Projetado para unir produtividade de desenvolvedor, rigor estatístico em tempo real e clareza de negócio em
+            um único app local.
+          </p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🧩</div>
+            <h3 data-i18n="f1_title">Editor Visual &amp; Código Sincronizados</h3>
+            <p data-i18n="f1_desc">Crie passos, headers, body JSON, asserções de status/tempo e extração de variáveis
+              (<code>{{token}}</code>) sem código, ou edite o YAML com validação em tempo real.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3 data-i18n="f2_title">Importação Instantânea de cURL</h3>
+            <p data-i18n="f2_desc">Copie qualquer requisição do Chrome DevTools, Postman ou Insomnia como cURL, cole no
+              LoadSmith e o passo nasce completo com método, headers e payload.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 data-i18n="f3_title">Massa de Dados CSV &amp; Segredos .env</h3>
+            <p data-i18n="f3_desc">Alimente cada usuário virtual com linhas reais de uma planilha CSV (sequencial ou
+              aleatória) e injete chaves sensíveis via <code>{{env.CHAVE}}</code> sem exibi-las na tela.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <h3 data-i18n="f4_title">Telemetria ao Vivo (p50, p95, p99 &amp; RPS)</h3>
+            <p data-i18n="f4_desc">Acompanhe gráficos suaves em tempo real, janelas configuráveis, cumprimento
+              automático
+              de regras de SLA e captura de amostras reais de erro para diagnóstico rápido.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⚖️</div>
+            <h3 data-i18n="f5_title">Comparação Antes vs. Depois</h3>
+            <p data-i18n="f5_desc">Selecione duas execuções salvas no histórico local e compare lado a lado quanto uma
+              otimização reduziu a latência p95 ou aumentou a vazão por segundo.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3 data-i18n="f6_title">Confirmação Pré-Voo &amp; SSL Local</h3>
+            <p data-i18n="f6_desc">Janela de revisão antes de disparar carga (protegendo contra disparos acidentais) e
+              suporte simples a certificados HTTPS autoassinados em ambientes locais e internos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.5 Executive Report & Open Source Banner -->
+    <section id="executive">
+      <div class="container">
+        <div class="exec-banner">
+          <div class="section-header" style="margin-bottom:12px;">
+            <span class="section-eyebrow" data-i18n="ex_eyebrow">📊 DIFERENCIAL EXCLUSIVO • PONTE ENTRE DEV E
+              NEGÓCIO</span>
+            <h2 data-i18n="ex_title">O Relatório Executivo que fala a língua de quem decide</h2>
+            <p data-i18n="ex_subtitle">
+              Ao finalizar qualquer bateria, o LoadSmith transforma métricas de engenharia em respostas diretas prontas
+              para compartilhar em PDF, HTML ou resumo executivo nos 3 idiomas.
+            </p>
+          </div>
+
+          <div class="exec-grid">
+            <div class="exec-card">
+              <div>
+                <div class="exec-card-top">
+                  <div class="exec-icon">✅</div>
+                  <span class="verdict-pill" data-i18n="ex_pill_1">Pergunta 01</span>
+                </div>
+                <h3 data-i18n="ex1_title">Aguenta a carga testada?</h3>
+                <p data-i18n="ex1_desc">
+                  Converte requisições por segundo em capacidade real de negócio (operações por minuto e por hora),
+                  destacando taxa de sucesso e estabilidade sustentada ao longo do teste.
+                </p>
+              </div>
+              <div class="exec-tags">
+                <span class="tip-chip">Ops / Minuto</span>
+                <span class="tip-chip">Taxa de Sucesso %</span>
+                <span class="tip-chip">Semáforo Visual</span>
+              </div>
+            </div>
+
+            <div class="exec-card">
+              <div>
+                <div class="exec-card-top">
+                  <div class="exec-icon">🎯</div>
+                  <span class="verdict-pill" data-i18n="ex_pill_2">Pergunta 02</span>
+                </div>
+                <h3 data-i18n="ex2_title">Vai cair na Black Friday?</h3>
+                <p data-i18n="ex2_desc">
+                  Com o Simulador de Meta integrado, digite quantas operações/minuto o negócio espera no pico (1k, 5k,
+                  15k, 30k+) e descubra na hora a folga de segurança ou quanto falta escalar.
+                </p>
+              </div>
+              <div class="exec-tags">
+                <span class="tip-chip">Target Simulator</span>
+                <span class="tip-chip">Margem de Folga ≥ 20%</span>
+                <span class="tip-chip">Alerta de Gargalo</span>
+              </div>
+            </div>
+
+            <div class="exec-card">
+              <div>
+                <div class="exec-card-top">
+                  <div class="exec-icon">⚡</div>
+                  <span class="verdict-pill" data-i18n="ex_pill_3">Pergunta 03</span>
+                </div>
+                <h3 data-i18n="ex3_title">Como o cliente sente na tela?</h3>
+                <p data-i18n="ex3_desc">
+                  Traduz percentis p95 em percepção humana imediata (Instantânea, Rápida, Perceptível ou Lenta) e gera
+                  recomendações práticas exportáveis em 1 clique para PDF ou HTML.
+                </p>
+              </div>
+              <div class="exec-tags">
+                <span class="tip-chip">Exportar PDF</span>
+                <span class="tip-chip">Exportar HTML</span>
+                <span class="tip-chip">PT / EN / ES</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 100% Open Source Community Callout -->
+          <div class="oss-callout">
+            <div class="oss-callout-content">
+              <span class="oss-callout-badge" data-i18n="oss_badge">💚 100% OPEN SOURCE • LICENÇA MIT</span>
+              <h3 data-i18n="oss_title">Código aberto para a comunidade — Use, audite e contribua!</h3>
+              <p data-i18n="oss_desc">
+                O LoadSmith é gratuito e 100% código aberto sob licença MIT. Contribua com novos templates, relatórios,
+                protocolos ou abra sugestões diretamente no GitHub.
+              </p>
+            </div>
+            <div class="oss-actions">
+              <a href="https://github.com/claudsan/loadsmith/pulls" target="_blank" rel="noopener"
+                class="btn btn-primary btn-sm" data-i18n="oss_btn_fork">🍴 Contribuir no GitHub</a>
+              <a href="https://github.com/claudsan/loadsmith/issues" target="_blank" rel="noopener"
+                class="btn btn-secondary btn-sm" data-i18n="oss_btn_issues">💡 Sugerir Melhoria / Issue</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Step-by-Step User Manual -->
+    <section id="manual">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="man_eyebrow">📖 GUIA PASSO A PASSO</span>
+          <h2 data-i18n="man_title">Manual Prático de Uso</h2>
+          <p data-i18n="man_subtitle">Domine todo o fluxo do LoadSmith em menos de 5 minutos.</p>
+        </div>
+
+        <div class="manual-steps">
+          <div class="manual-step">
+            <div class="step-num">01</div>
+            <div>
+              <h3 data-i18n="m1_title">Instalação Rápida em Windows, macOS ou Linux (Zero Dependências)</h3>
+              <p data-i18n="m1_desc">
+                Baixe o pacote para seu sistema em Releases: Windows (<code>.exe</code> instalador ou portátil), macOS
+                (<code>.dmg</code> / <code>.zip</code> Intel &amp; Apple Silicon) ou Linux (<code>.AppImage</code> /
+                <code>.deb</code>). Na primeira abertura, a pasta <code>Documents/LoadSmith</code> já vem com um cenário
+                de exemplo pronto.
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">Windows • macOS • Linux</span>
+                <span class="tip-chip">Zero Config</span>
+                <span class="tip-chip">Workspace Automático</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-step">
+            <div class="step-num">02</div>
+            <div>
+              <h3 data-i18n="m2_title">Criando Cenários por Modelo ou Importando um cURL</h3>
+              <p data-i18n="m2_desc">
+                Clique em <strong>+</strong> na coluna de Cenários e escolha entre <em>API REST Simples</em>, <em>Login
+                  + Rota Autenticada</em> ou <em>Carga com Massa CSV</em>. Já tem a chamada no Postman, Insomnia ou
+                navegador? Clique em <strong>Importar cURL</strong> no Editor Visual e cole o comando.
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">3 Templates Prontos</span>
+                <span class="tip-chip">📋 Importar cURL</span>
+                <span class="tip-chip">Visual ⇄ YAML Sincronizados</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-step">
+            <div class="step-num">03</div>
+            <div>
+              <h3 data-i18n="m3_title">Encadeando Variáveis, Planilhas CSV e Segredos .env</h3>
+              <p data-i18n="m3_desc">
+                Use <strong>Extrair</strong> em um passo de login para salvar o token e reutilizá-lo nos próximos passos
+                como <code>{{token}}</code>. Vincule um arquivo <code>.csv</code> para que cada usuário virtual envie
+                dados distintos e guarde senhas ou chaves em um arquivo <code>.env</code> local usando chips
+                <code>{{env.SUA_CHAVE}}</code>.
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">{{variavel}} Dinâmica</span>
+                <span class="tip-chip">📊 Massa CSV (Sequencial / Aleatória)</span>
+                <span class="tip-chip">🔑 .env Auto-Detectado</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-step">
+            <div class="step-num">04</div>
+            <div>
+              <h3 data-i18n="m4_title">Primeiro Smoke, Depois Carga com Regras de SLA</h3>
+              <p data-i18n="m4_desc">
+                Comece sempre no modo <strong>Smoke</strong> (um usuário passo a passo, parando imediatamente se algo
+                falhar) para garantir que o fluxo está correto. Em seguida, alterne para <strong>Carga</strong>, defina
+                usuários virtuais (VUs), duração, rampa de subida e limites de aprovação (p95 máximo e taxa de erro).
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">⚡ Smoke Fail-Fast</span>
+                <span class="tip-chip">🔥 VUs + Ramp-Up</span>
+                <span class="tip-chip">🛡️ Confirmação Pré-Execução</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-step">
+            <div class="step-num">05</div>
+            <div>
+              <h3 data-i18n="m5_title">Lendo a Telemetria ao Vivo e Diagnosticando Erros</h3>
+              <p data-i18n="m5_desc">
+                Durante o teste, acompanhe RPS, latência típica (<code>p50</code>), experiência de 95% dos usuários
+                (<code>p95</code>) e pior caso (<code>p99</code>). Se ocorrerem falhas, abra a aba
+                <strong>Erros</strong> para inspecionar o passo exato, status HTTP retornado e mensagem detalhada.
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">📈 Gráfico Multi-Percentil</span>
+                <span class="tip-chip">Amostras de Erro</span>
+                <span class="tip-chip">CLI Equivalente</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="manual-step">
+            <div class="step-num">06</div>
+            <div>
+              <h3 data-i18n="m6_title">Comparando Antes vs. Depois e Exportando o Relatório Executivo</h3>
+              <p data-i18n="m6_desc">
+                Toda execução fica salva localmente. Abra <strong>Antes vs. Depois</strong> para comprovar melhorias
+                entre duas versões da sua API, ou clique em <strong>Relatório Executivo</strong> para simular metas de
+                pico e exportar o parecer completo em PDF ou HTML.
+              </p>
+              <div class="manual-tips">
+                <span class="tip-chip">⚖️ Antes vs. Depois</span>
+                <span class="tip-chip">🎯 Simulador Black Friday</span>
+                <span class="tip-chip">📄 Exportação PDF / HTML</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Sibling App Section — Hooksmith -->
+    <section id="sibling">
+      <div class="container">
+        <div class="sibling-showcase">
+          <div>
+            <span class="sibling-eyebrow" data-i18n="sib_eyebrow">🔥 CONHEÇA SEU IRMÃO DE FORJA • ECOSSISTEMA
+              LOCAL</span>
+            <h2 data-i18n="sib_title">
+              <span class="hooksmith-accent">Hooksmith</span> — A Forja Local de APIs &amp; Webhooks
+            </h2>
+            <p class="sibling-desc" data-i18n="sib_desc">
+              O <strong>LoadSmith</strong> e o <strong>Hooksmith</strong> nasceram da mesma filosofia: ferramentas de
+              desktop rápidas, elegantes, 100% offline, em 3 idiomas e livres de nuvem. Enquanto o LoadSmith coloca suas
+              APIs à prova sob carga, o Hooksmith intercepta tráfego, cria mocks HTTP/HTTPS com SSL automático, dispara
+              callbacks assíncronos e faz replay de webhooks em tempo real.
+            </p>
+
+            <div class="sibling-pills">
+              <span class="sibling-pill" data-i18n="sib_p1">🔒 Listeners HTTP &amp; HTTPS (Auto SSL)</span>
+              <span class="sibling-pill" data-i18n="sib_p2">🚀 Callbacks Assíncronos Nativos</span>
+              <span class="sibling-pill" data-i18n="sib_p3">✨ Inspector Pretty/Raw &amp; Replay</span>
+              <span class="sibling-pill" data-i18n="sib_p4">💚 100% Local &amp; Open Source</span>
+            </div>
+
+            <div class="sibling-actions">
+              <a href="https://claudsan.github.io/hooksmith/" target="_blank" rel="noopener" class="btn btn-hooksmith"
+                data-i18n="sib_cta_site">🌐 Conhecer o Hooksmith</a>
+              <a href="https://github.com/claudsan/hooksmith" target="_blank" rel="noopener" class="btn btn-secondary"
+                data-i18n="sib_cta_repo">⭐ Hooksmith no GitHub</a>
+            </div>
+          </div>
+
+          <div class="sibling-card-visual">
+            <img src="assets/hooksmith-logo.png" alt="Hooksmith — Local API & Webhook Forge" class="sibling-logo" />
+            <div class="synergy-box">
+              <div class="synergy-flow">
+                <span class="synergy-node-ls">⚡ LoadSmith</span>
+                <span style="color:var(--fg-subtle);">⇄</span>
+                <span class="synergy-node-hs">🔥 Hooksmith</span>
+              </div>
+              <p data-i18n="sib_synergy">
+                <strong>Combo Perfeito no Desktop:</strong> Suba mocks HTTPS e callbacks de gateways no
+                <strong>Hooksmith</strong> para desenvolver sua integração, e depois use o <strong>LoadSmith</strong>
+                para validar o fluxo ponta a ponta e medir quanto seu serviço aguenta!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Keyboard Shortcuts & Local Privacy -->
+    <section id="shortcuts">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-eyebrow" data-i18n="sc_eyebrow">⌨️ PRODUTIVIDADE &amp; PRIVACIDADE</span>
+          <h2 data-i18n="sc_title">Atalhos de Teclado &amp; Armazenamento 100% Local</h2>
+        </div>
+
+        <div class="shortcuts-grid">
+          <div class="shortcut-item">
+            <span data-i18n="sc_run">Executar cenário selecionado (com confirmação)</span>
+            <kbd>Ctrl + Enter</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span data-i18n="sc_save">Salvar alterações do cenário aberto</span>
+            <kbd>Ctrl + S</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span data-i18n="sc_search">Focar na busca global de cenários e erros</span>
+            <kbd>Ctrl + K</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span data-i18n="sc_stop">Parar teste em execução ou fechar janela</span>
+            <kbd>Esc</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span data-i18n="sc_zoom">Ajustar zoom da interface</span>
+            <kbd>Ctrl + / -</kbd>
+          </div>
+          <div class="shortcut-item">
+            <span data-i18n="sc_reset_zoom">Restaurar zoom padrão (100%)</span>
+            <kbd>Ctrl + 0</kbd>
+          </div>
+        </div>
+
+        <div
+          style="margin-top:32px;background:var(--bg-panel);border:1px solid var(--line);border-radius:12px;padding:22px;text-align:center;">
+          <p style="font-family:var(--font-mono);font-size:0.82rem;color:var(--fg-muted);" data-i18n="storage_note">
+            🔒 <strong>Armazenamento 100% Local &amp; Offline:</strong>
+            Windows: <code>%APPDATA%/LoadSmith</code> •
+            macOS: <code>~/Library/Application Support/LoadSmith</code> •
+            Linux: <code>~/.config/LoadSmith</code>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <strong>LoadSmith</strong> — Local Smoke &amp; Load Forge • MIT License •
+        <a href="https://github.com/claudsan/loadsmith" style="color:#34D399;">GitHub Repository</a> •
+        <span data-i18n="footer_sibling">App irmão:</span>
+        <a href="https://claudsan.github.io/hooksmith/" style="color:#FB923C;">Hooksmith</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal for Full-Screen Screenshot Preview -->
+  <div id="lightbox-modal" class="lightbox-overlay" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="LoadSmith Fullscreen Preview" />
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

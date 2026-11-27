@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loadsmith.local/schemas/scenario.schema.json",
+  "title": "LoadSmith Scenario",
+  "description": "Definição de cenário YAML/JSON suportada pelo motor LoadSmith nos modos smoke e load.",
+  "type": "object",
+  "required": ["name", "baseUrl", "steps"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nome legível do cenário."
+    },
+    "baseUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "description": "URL base para todas as requisições do cenário."
+    },
+    "insecureSkipVerify": {
+      "type": "boolean",
+      "description": "Permite conexões HTTPS com certificados locais ou autoassinados."
+    },
+    "envFile": {
+      "type": "string",
+      "description": "Caminho de arquivo .env (padrão: detecta .env na pasta do cenário) para uso via {{env.CHAVE}}."
+    },
+    "variables": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Mapa inicial de variáveis disponíveis via {{variavel}}."
+    },
+    "dataFile": {
+      "type": "object",
+      "required": ["path"],
+      "additionalProperties": false,
+      "description": "Arquivo CSV externo onde a primeira linha define os nomes das variáveis.",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Caminho do arquivo CSV (relativo ao arquivo de cenário ou absoluto)."
+        },
+        "delimiter": {
+          "type": "string",
+          "description": "Delimitador de colunas (padrão: ','; suporta ';', '\\t', etc.)."
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["round-robin", "random"],
+          "description": "Estratégia de distribuição das linhas por iteração."
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/step" }
+    },
+    "smoke": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "iterations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Número de iterações sequenciais no modo smoke (padrão: 1)."
+        }
+      }
+    },
+    "load": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "vus": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Quantidade máxima de Virtual Users concorrentes."
+        },
+        "rampUp": {
+          "type": "string",
+          "description": "Duração de subida gradual dos VUs (formato Go time.Duration, ex: 5s)."
+        },
+        "duration": {
+          "type": "string",
+          "description": "Duração total do teste de carga (formato Go time.Duration, ex: 15s)."
+        },
+        "thinkTimeMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pausa em milissegundos entre iterações de cada VU."
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "p95Ms": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Limite máximo aceito para o percentil p95 global em ms."
+        },
+        "maxErrorRatePct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentual máximo de erro aceito (0 a 100)."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": ["id", "method", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "get", "post", "put", "patch", "delete", "head", "options"]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "body": {
+          "description": "Payload da requisição (objeto/array serializado em JSON ou string literal)."
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "extract": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Mapa variável -> caminho JSON (dot notation / [indice]) extraído da resposta."
+        },
+        "assert": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            "bodyContains": {
+              "type": "string"
+            },
+            "maxDurationMs": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

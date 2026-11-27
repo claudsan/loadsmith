@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loadsmith.local/schemas/stream-event.schema.json",
+  "title": "LoadSmith NDJSON Stream Event",
+  "description": "Contrato dos eventos emitidos linha a linha no stdout pelo motor LoadSmith.",
+  "oneOf": [
+    { "$ref": "#/$defs/runStarted" },
+    { "$ref": "#/$defs/metricTick" },
+    { "$ref": "#/$defs/errorSample" },
+    { "$ref": "#/$defs/runFinished" }
+  ],
+  "$defs": {
+    "runStarted": {
+      "type": "object",
+      "required": ["type", "runId", "scenario", "mode", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "RUN_STARTED" },
+        "runId": { "type": "string" },
+        "scenario": { "type": "string" },
+        "mode": { "type": "string", "enum": ["smoke", "load"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      }
+    },
+    "metricTick": {
+      "type": "object",
+      "required": ["type", "runId", "elapsedMs", "activeVus", "rps", "p50Ms", "p95Ms", "p99Ms", "successes", "errors"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "METRIC_TICK" },
+        "runId": { "type": "string" },
+        "elapsedMs": { "type": "integer", "minimum": 0 },
+        "activeVus": { "type": "integer", "minimum": 0 },
+        "rps": { "type": "number", "minimum": 0 },
+        "p50Ms": { "type": "number", "minimum": 0 },
+        "p95Ms": { "type": "number", "minimum": 0 },
+        "p99Ms": { "type": "number", "minimum": 0 },
+        "successes": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "errorSample": {
+      "type": "object",
+      "required": ["type", "runId", "step", "statusCode", "durationMs", "error", "requestSummary"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "ERROR_SAMPLE" },
+        "runId": { "type": "string" },
+        "step": { "type": "string" },
+        "statusCode": { "type": "integer", "minimum": 0 },
+        "durationMs": { "type": "number", "minimum": 0 },
+        "error": { "type": "string" },
+        "requestSummary": { "type": "string" }
+      }
+    },
+    "runFinished": {
+      "type": "object",
+      "required": ["type", "runId", "totalRequests", "totalErrors", "errorRatePct", "p95Ms", "passedThresholds", "violations"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "RUN_FINISHED" },
+        "runId": { "type": "string" },
+        "totalRequests": { "type": "integer", "minimum": 0 },
+        "totalErrors": { "type": "integer", "minimum": 0 },
+        "errorRatePct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "p95Ms": { "type": "number", "minimum": 0 },
+        "passedThresholds": { "type": "boolean" },
+        "violations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

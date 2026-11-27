@@ -1,0 +1,148 @@
+{
+  "name": "@loadsmith/desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LoadSmith — Local Smoke & Load Forge",
+  "author": "Claudenir Santana <claudsan@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://claudsan.github.io/loadsmith/",
+  "main": "dist-electron/main/index.js",
+  "scripts": {
+    "build:electron": "node build-electron.mjs",
+    "build:renderer": "vite build",
+    "build": "npm run build:electron && npm run build:renderer",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "dev": "npm run build:electron && concurrently -k \"vite --port 5173 --strictPort\" \"wait-on http://127.0.0.1:5173 && electron .\"",
+    "start": "npm run build && electron .",
+    "test": "vitest run",
+    "package:dir": "electron-builder --dir",
+    "package:win": "electron-builder --win --publish never",
+    "package:linux": "electron-builder --linux --publish never",
+    "package:mac": "electron-builder --mac --publish never"
+  },
+  "build": {
+    "appId": "com.loadsmith.desktop",
+    "productName": "LoadSmith",
+    "executableName": "loadsmith",
+    "copyright": "Copyright © 2026 LoadSmith Contributors",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "**/node_modules/sql.js/**"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/bin",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "resources/icon.ico",
+        "to": "icon.ico"
+      },
+      {
+        "from": "resources/icon.png",
+        "to": "icon.png"
+      },
+      {
+        "from": "node_modules/sql.js/dist/sql-wasm.wasm",
+        "to": "sql-wasm.wasm"
+      }
+    ],
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "LoadSmith"
+    },
+    "linux": {
+      "icon": "resources/icon.png",
+      "category": "Development",
+      "maintainer": "Claudenir Santana <claudsan@gmail.com>",
+      "synopsis": "Local Smoke & Load Forge",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "icon": "resources/icon.png",
+      "category": "public.app-category.developer-tools",
+      "identity": null,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ]
+    }
+  },
+  "dependencies": {
+    "lucide-react": "^0.511.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sql.js": "^1.13.0",
+    "yaml": "^2.7.1",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.5.0",
+    "concurrently": "^9.1.2",
+    "electron": "^36.3.2",
+    "electron-builder": "^26.18.0",
+    "esbuild": "^0.25.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4",
+    "wait-on": "^8.0.3"
+  }
+}

@@ -1,0 +1,55 @@
+name: CI — Build, Test & TypeCheck
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Build, Go Engine & Desktop Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go 1.24
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+          cache-dependency-path: engine/go.sum
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: apps/desktop/package-lock.json
+
+      - name: Validate & Test Go Engine
+        working-directory: engine
+        run: |
+          go vet ./...
+          go test -v ./...
+
+      - name: Install Desktop Dependencies
+        run: npm --prefix apps/desktop ci
+
+      - name: Build & Sync Sidecar Binary
+        run: npm run prepare:sidecar
+
+      - name: TypeScript Check, Unit Tests & Production Build
+        run: |
+          npm --prefix apps/desktop run typecheck
+          npm run test:desktop
+          npm run build:desktop

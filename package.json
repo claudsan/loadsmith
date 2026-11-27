@@ -1,0 +1,22 @@
+{
+  "name": "loadsmith",
+  "version": "1.0.0",
+  "private": true,
+  "author": "Claudenir Santana <claudsan@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://claudsan.github.io/loadsmith/",
+  "type": "module",
+  "scripts": {
+    "build:engine": "node scripts/build-engine.mjs",
+    "sync:sidecar": "node scripts/sync-sidecar.mjs",
+    "prepare:sidecar": "node scripts/build-engine.mjs && node scripts/sync-sidecar.mjs",
+    "dev:desktop": "npm --prefix apps/desktop run dev",
+    "build:desktop": "npm --prefix apps/desktop run build",
+    "test:desktop": "npm --prefix apps/desktop run test",
+    "package:dir": "npm run prepare:sidecar && npm --prefix apps/desktop run build && npm --prefix apps/desktop run package:dir",
+    "package:win": "npm run prepare:sidecar && npm --prefix apps/desktop run build && npm --prefix apps/desktop run package:win",
+    "package:linux": "npm run prepare:sidecar && npm --prefix apps/desktop run build && npm --prefix apps/desktop run package:linux",
+    "package:mac": "npm run prepare:sidecar && npm --prefix apps/desktop run build && npm --prefix apps/desktop run package:mac",
+    "verify:packaged": "node scripts/verify-packaged.mjs"
+  }
+}

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build & packaging outputs
+apps/desktop/dist/
+apps/desktop/dist-electron/
+apps/desktop/release/
+apps/desktop/resources/bin/
+engine/bin/
+
+# Runtime & local databases
+*.sqlite
+*.sqlite.tmp
+*.log
+*.tsbuildinfo
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db

@@ -1,0 +1,56 @@
+name: E-Commerce Orders Flow (CSV Data-Driven)
+baseUrl: http://127.0.0.1:8090
+dataFile:
+  path: ./users.csv
+steps:
+  - id: health
+    name: Health Check
+    method: GET
+    path: /health
+    timeoutMs: 2000
+    assert:
+      status: 200
+      bodyContains: ok
+      maxDurationMs: 250
+  - id: authLogin
+    name: Authenticate User from CSV
+    method: POST
+    path: /auth/login
+    headers:
+      Content-Type: application/json
+    body:
+      email: "{{userEmail}}"
+      password: "{{userPass}}"
+    timeoutMs: 3000
+    extract:
+      token: data.accessToken
+    assert:
+      status: 200
+      maxDurationMs: 400
+  - id: createOrder
+    name: Create Order with SKU from CSV
+    method: POST
+    path: /orders
+    headers:
+      Content-Type: application/json
+      Authorization: Bearer {{token}}
+    body:
+      sku: "{{sku}}"
+      quantity: 1
+    timeoutMs: 3000
+    extract:
+      orderId: data.id
+    assert:
+      status: 201
+      bodyContains: created
+      maxDurationMs: 500
+smoke:
+  iterations: 5
+load:
+  vus: 15
+  rampUp: 3s
+  duration: 10s
+  thinkTimeMs: 100
+thresholds:
+  p95Ms: 250
+  maxErrorRatePct: 1
