@@ -1,31 +1,33 @@
 # Changelog
 
-Todas as mudanças notáveis do **LoadSmith** serão documentadas neste arquivo.
+All notable changes to **LoadSmith** will be documented in this file.
 
-O formato segue o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e este projeto adota [Versionamento Semântico](https://semver.org/lang/pt-BR/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2026-11-26
+## [1.0.0] - 2026-11-27
 
-### Adicionado
-- **Motor CLI em Go (`engine/`):**
-  - Execução sequencial *fail-fast* (`--mode smoke`) e concorrente com Virtual Users, *ramp-up* e *think time* (`--mode load`).
-  - Telemetria em tempo real via stream NDJSON estrito (`RUN_STARTED`, `METRIC_TICK`, `ERROR_SAMPLE`, `RUN_FINISHED`) e saída `--pretty` em `stderr`.
-  - Encerramento gracioso via `SIGINT`, `SIGTERM` e comando cooperativo `STOP` via `stdin`.
-  - Suporte a cenários YAML e JSON, extração JSONPath (`$.campo`), asserções por passo e avaliação de SLA (`thresholds.p95Ms` e `thresholds.maxErrorRatePct`).
-  - Feed de massa de dados via CSV (`dataFile`) nos modos `round-robin` e `random`, com suporte a delimitadores customizados e remoção de UTF-8 BOM.
-  - Carregamento de segredos via `.env` (`envFile` ou detecção automática na pasta do cenário) e variáveis de ambiente usando `{{env.CHAVE}}`.
-  - Suporte a certificados HTTPS locais/autoassinados com `insecureSkipVerify: true`.
-  - Servidor local de demonstração (`demoserver`) para testes e validações offline.
+### Added
+- **CLI & Execution Engine (`engine/`):**
+  - Sequential *fail-fast* verification (`--mode smoke`) and concurrent stress execution with Virtual Users, *ramp-up*, and *think time* (`--mode load`).
+  - Real-time NDJSON event streaming (`RUN_STARTED`, `METRIC_TICK`, `ERROR_SAMPLE`, `RUN_FINISHED`) alongside optional human-readable `--pretty` output on `stderr`.
+  - Graceful shutdown via `SIGINT`, `SIGTERM`, and cooperative `STOP` command over `stdin`.
+  - Full YAML and JSON scenario support, JSONPath response extraction (`$.field`), per-step assertions, and automated SLA threshold checks (`thresholds.p95Ms` and `thresholds.maxErrorRatePct`).
+  - Data-driven CSV feed (`dataFile`) supporting `round-robin` and `random` distribution modes, custom delimiters, and automatic UTF-8 BOM stripping.
+  - Local `.env` secret loading (`envFile` or automatic detection in the scenario directory) and environment variable interpolation via `{{env.KEY}}`.
+  - Self-signed / local HTTPS certificate support via `insecureSkipVerify: true`.
+  - Built-in local demo server (`demoserver`) for offline testing and validation.
 
-- **Aplicativo Desktop (`apps/desktop/`):**
-  - Interface dark *obsidian* sem borda com título personalizado, controles de janela, zoom (`Ctrl +/-/0`), atalhos (`Ctrl K`, `Ctrl S`, `Ctrl Enter`, `Esc`) e colunas redimensionáveis.
-  - Editor Visual e Editor de Código YAML/JSON sincronizados bidirecionalmente, além de Visualizador paginado/filtrável de registros CSV.
-  - Importador de comandos **`cURL`** (compatível com Chrome DevTools, Postman, Insomnia, Bash e CMD) direto para passos do cenário.
-  - CRUD completo de cenários na barra lateral (criar com modelos prontos, renomear inline, duplicar, excluir com confirmação), workspace inicial automático (`Documentos/LoadSmith`) e proteção contra alterações não salvas (`isDirty`).
-  - Telemetria em tempo real otimizada para execuções longas com *downsampling* SVG preservando picos de latência (`p95`/`p99`) e contagem de erros.
-  - Histórico local offline para comparação **Antes vs. Depois** com deltas percentuais de `p95`, `RPS` e taxa de erros.
-  - **Relatório Executivo** em linguagem não técnica com semáforo de decisão, simulador de meta (*Black Friday* / pico esperado), cópia de resumo, exportação HTML e exportação nativa em **PDF (1 clique)**.
+- **Desktop Application (`apps/desktop/`):**
+  - Frameless dark forge UI with custom titlebar, window controls, zoom shortcuts (`Ctrl +/-/0`), productivity shortcuts (`Ctrl K`, `Ctrl S`, `Ctrl Enter`, `Esc`), and resizable workspace columns.
+  - Full 3-language localization (**English**, **Português**, and **Español**) with vector flag switcher, automatic OS/browser locale detection on first launch, and persistent user preference.
+  - Bidirectionally synced Visual Scenario Editor and YAML/JSON Code Editor, plus a paginated, searchable CSV records viewer.
+  - 1-click **`cURL` importer** (compatible with Chrome DevTools, Postman, Insomnia, Bash, and Windows CMD) directly into scenario steps.
+  - Complete sidebar scenario management (starter templates, inline rename, duplicate, delete with confirmation), automatic starter workspace (`Documents/LoadSmith`), and unsaved-changes protection (`isDirty`).
+  - Real-time telemetry charts optimized for long runs with peak-preserving SVG downsampling (`p50`, `p95`, `p99`, `RPS`) and captured error samples.
+  - 100% local offline run history and **Before vs. After** comparison view with percentage deltas across latency, throughput, and error rate.
+  - **Executive Report** in plain business language featuring a traffic-light verdict, interactive peak Target Simulator (e.g., *Black Friday* ops/min), summary copy, standalone HTML export, and native **1-click PDF export**.
 
-- **Empacotamento & Distribuição:**
-  - Empacotamento Windows via `electron-builder` gerando instalador NSIS (`LoadSmith Setup 1.0.0.exe`) e executável portátil (`LoadSmith 1.0.0.exe`).
-  - Validador isolado fora do monorepo (`scripts/verify-packaged.mjs`) e pipelines de CI/Release via GitHub Actions.
+- **Cross-Platform Packaging, Website & CI/CD:**
+  - Multi-platform `electron-builder` distribution for **Windows** (`.exe` NSIS installer & Portable), **macOS** (`.dmg` & `.zip` for Apple Silicon `arm64` & Intel `x64` with Universal Go binary), and **Linux** (`.AppImage` & `.deb`).
+  - Clean-room isolated bundle verifier (`scripts/verify-packaged.mjs`) and automated GitHub Actions workflows (`ci.yml`, `release.yml`, and `pages.yml`).
+  - Official trilingual GitHub Pages website (`docs/`) with screenshot carousel, interactive desktop simulator, and user manuals (`README.md`, `README.pt-BR.md`, `README.es-ES.md`).
