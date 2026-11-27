@@ -5,6 +5,10 @@
   "author": "Claudenir Santana <claudsan@gmail.com>",
   "license": "MIT",
   "homepage": "https://claudsan.github.io/loadsmith/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claudsan/loadsmith.git"
+  },
   "type": "module",
   "scripts": {
     "build:engine": "node scripts/build-engine.mjs",

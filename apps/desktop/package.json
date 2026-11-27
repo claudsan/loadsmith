@@ -1,11 +1,16 @@
 {
-  "name": "@loadsmith/desktop",
+  "name": "loadsmith",
+  "desktopName": "loadsmith.desktop",
   "version": "1.0.0",
   "private": true,
   "description": "LoadSmith — Local Smoke & Load Forge",
   "author": "Claudenir Santana <claudsan@gmail.com>",
   "license": "MIT",
   "homepage": "https://claudsan.github.io/loadsmith/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/claudsan/loadsmith.git"
+  },
   "main": "dist-electron/main/index.js",
   "scripts": {
     "build:electron": "node build-electron.mjs",
@@ -23,8 +28,14 @@
   "build": {
     "appId": "com.loadsmith.desktop",
     "productName": "LoadSmith",
-    "executableName": "loadsmith",
     "copyright": "Copyright © 2026 LoadSmith Contributors",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "claudsan",
+        "repo": "loadsmith"
+      }
+    ],
     "directories": {
       "output": "release"
     },
@@ -82,6 +93,8 @@
       "shortcutName": "LoadSmith"
     },
     "linux": {
+      "executableName": "loadsmith",
+      "syncDesktopName": true,
       "icon": "resources/icon.png",
       "category": "Development",
       "maintainer": "Claudenir Santana <claudsan@gmail.com>",
